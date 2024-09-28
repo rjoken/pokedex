@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginAPI } from 'tailwindcss/types/config';
 
 const config: Config = {
   content: [
@@ -12,8 +13,31 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      imageRendering: {
+        'auto': 'auto',
+        'crisp': 'crisp-edges',
+        'pixel': 'pixelated',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function(api: PluginAPI) {
+      const { addUtilities } = api;
+      
+      const newUtilities = {
+        '.image-render-auto': {
+          'image-rendering': 'auto',
+        },
+        '.image-render-crisp': {
+          'image-rendering': 'crisp-edges',
+        },
+        '.image-render-pixel': {
+          'image-rendering': 'pixelated',
+        },
+      };
+
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
+  ],
 };
 export default config;
