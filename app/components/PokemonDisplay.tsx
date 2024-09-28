@@ -4,22 +4,20 @@ import { Pokemon } from "../class/Pokemon";
 interface Props {
   pokemon: Pokemon;
   caught: boolean;
+  toggleCaught: (id: number) => void;
 }
 
-export default function PokemonDisplay({ pokemon, caught }: Props) {
-  const [isCaught, setCaught] = useState(caught);
-  const toggleCaught = (): void => {
-    setCaught(!isCaught);
-  };
-
+export default function PokemonDisplay({
+  pokemon,
+  caught,
+  toggleCaught,
+}: Props) {
   return (
     <div
       className={`min-w-40 min-h-40 outline outline-1 p-2 m-2 outline-black  rounded-md text-center text-nowrap select-none cursor-pointer ${
-        isCaught
-          ? "bg-red-200 hover:bg-red-300"
-          : "bg-gray-200 hover:bg-blue-200"
+        caught ? "bg-red-200 hover:bg-red-300" : "bg-gray-200 hover:bg-blue-200"
       }`}
-      onClick={() => toggleCaught()}
+      onClick={() => toggleCaught(pokemon.id)}
     >
       <p>
         {pokemon.id.toString().padStart(3, "0")} - {pokemon.name}
@@ -30,7 +28,7 @@ export default function PokemonDisplay({ pokemon, caught }: Props) {
           className="w-20 image-render-pixel"
         ></img>
       </div>
-      <p>{isCaught ? "Caught" : ""}</p>
+      <p>{caught ? "Caught" : ""}</p>
     </div>
   );
 }
